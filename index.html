@@ -4,6 +4,13 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <title>IELTS Vocab Lab</title>
+<link rel="manifest" href="/manifest.webmanifest" />
+<meta name="theme-color" content="#6d5be7" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="IELTS Vocab" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
 <style>
 :root{
   --bg:#f5f7fb;--card:#ffffff;--ink:#1f2330;--muted:#73788a;--accent:#6d5be7;--accent-dark:#5544c4;
@@ -441,4 +448,14 @@ function resetTimer(){clearInterval(timer);timer=null;seconds=60;timerBtn.textCo
 function drawTime(){timerDisplay=document.getElementById('timer');timerDisplay.textContent='00:'+String(seconds).padStart(2,'0')}
 function toggleTimer(){if(timer){clearInterval(timer);timer=null;timerBtn.textContent='Resume'}else{timerBtn.textContent='Pause';timer=setInterval(()=>{seconds--;drawTime();if(seconds<=0){clearInterval(timer);timer=null;timerBtn.textContent='Done ✓'}},1000)}}
 rebuildDeck(false);renderStats();renderLibrary();renderCard();renderWrite();renderSpeak();initCloud();
-</script></body></html>
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js').catch(err => {
+      console.warn('Service worker registration failed:', err);
+    });
+  });
+}
+</script>
+</body></html>
