@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>IELTS Vocab Lab</title>
+<style>
+:root{
+  --bg:#f5f7fb;--card:#ffffff;--ink:#1f2330;--muted:#73788a;--accent:#6d5be7;--accent-dark:#5544c4;
+  --accent-soft:#efedff;--good:#167557;--good-soft:#e8f6f0;--bad:#b94343;--bad-soft:#fdecec;
+  --warn:#a66712;--warn-soft:#fff4df;--line:#e5e8f0;--shadow:0 12px 32px rgba(35,39,65,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+button,input,select,textarea{font:inherit}
+button{transition:.18s ease}
+button:hover{transform:translateY(-1px)}
+.app{min-height:100vh}
+.top{position:sticky;top:0;z-index:20;background:rgba(245,247,251,.88);backdrop-filter:blur(16px);border-bottom:1px solid rgba(229,232,240,.9)}
+.topin{max-width:1180px;margin:auto;padding:13px 20px;display:flex;gap:16px;align-items:center}
+.brand{font-weight:900;font-size:20px;letter-spacing:-.35px;white-space:nowrap}.brand span{color:var(--accent)}
+.topic{display:flex;gap:9px;align-items:center}
+.pill,.btn{border-radius:12px;padding:10px 14px}
+.pill{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.btn{border:0;background:var(--accent);color:#fff;font-weight:760;cursor:pointer;box-shadow:0 5px 14px rgba(109,91,231,.16)}
+.btn:hover{background:var(--accent-dark)}
+.btn.secondary{background:var(--accent-soft);color:var(--accent-dark);box-shadow:none}.btn.secondary:hover{background:#e7e3ff}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line);box-shadow:none}.btn.ghost:hover{background:#fafaff}
+.btn.small{padding:8px 11px;font-size:13px}
+.shell{max-width:1180px;margin:0 auto;padding:24px 20px 96px;display:grid;grid-template-columns:205px minmax(0,1fr);gap:26px}
+.nav{display:flex;flex-direction:column;gap:6px;position:sticky;top:82px;height:max-content}
+.nav button{text-align:left;background:transparent;border:0;border-radius:12px;padding:11px 12px;cursor:pointer;color:#5e6373;font-weight:620}
+.nav button.active{background:#e9e6ff;color:var(--accent-dark);font-weight:800}
+.main{min-width:0}.view{display:none}.view.active{display:block}
+.hero{display:flex;justify-content:space-between;gap:18px;align-items:flex-end;margin-bottom:20px}.hero h1{font-size:32px;letter-spacing:-.7px;margin:0 0 5px}.hero p{margin:0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.stat,.panel,.typeStat{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.stat{padding:18px}.stat .n{font-size:28px;font-weight:900;letter-spacing:-.5px}.stat .l{font-size:13px;color:var(--muted);margin-top:2px}
+.panel{padding:20px;margin-top:16px}.panel h2{margin:0 0 14px;font-size:19px}.panel p{line-height:1.6}
+.progress{height:10px;background:#eceef4;border-radius:999px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#8c7df0);width:0;transition:width .25s ease}
+.modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.mode{padding:18px;border:1px solid var(--line);border-radius:16px;background:#fff;cursor:pointer}.mode:hover{border-color:#d7d1ff;box-shadow:0 8px 24px rgba(35,39,65,.06)}.mode b{display:block;margin-bottom:4px}.mode small{color:var(--muted);line-height:1.4}
+.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px;align-items:center}.filters select,.filters input{background:#fff;border:1px solid var(--line);padding:10px 12px;border-radius:11px}.filters input{flex:1;min-width:190px}
+.table{display:grid;gap:9px}.row{background:#fff;border:1px solid var(--line);border-radius:15px;padding:15px;display:grid;grid-template-columns:1.2fr .85fr 1.45fr 110px;gap:14px;align-items:center}.row:hover{border-color:#dcd7f5}.row .term{font-weight:800}.ipa{font-family:Georgia,serif;color:#7a7487;font-size:13px;margin:3px 0 7px}.row .ru{color:#5f6474}.row .ex{font-size:14px;color:#666b7b;line-height:1.45}
+.badge{display:inline-flex;align-items:center;font-size:11px;padding:5px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent-dark);font-weight:750}.badge.weak{background:var(--bad-soft);color:var(--bad);margin-left:6px}
+.studyWrap,.quiz{max-width:800px;margin:0 auto}.studyHead{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:14px}.studyTitle{font-size:22px;font-weight:900;letter-spacing:-.3px}.studyTools{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.studyControls{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:14px;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}.controlGroup{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.controlLabel{font-size:12px;color:var(--muted);font-weight:750;text-transform:uppercase;letter-spacing:.04em}
+.segmented{display:inline-flex;padding:3px;background:#f1f2f6;border-radius:12px;gap:2px}.segmented button{border:0;background:transparent;color:#686d7c;border-radius:9px;padding:8px 11px;cursor:pointer;font-size:13px;font-weight:700}.segmented button.active{background:#fff;color:var(--accent-dark);box-shadow:0 2px 8px rgba(30,33,55,.08)}
+.filterToggle{border:1px solid var(--line);background:#fff;color:#626777;border-radius:11px;padding:9px 12px;cursor:pointer;font-weight:700}.filterToggle.active{background:var(--bad-soft);border-color:#f2cdcd;color:var(--bad)}
+.card{min-height:390px;background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:30px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;cursor:pointer;position:relative;overflow:hidden}.card:before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:linear-gradient(90deg,var(--accent),#9b8ff4)}.card .hint{color:var(--muted);font-size:13px;margin-bottom:18px}.card .big{font-size:29px;font-weight:880;line-height:1.28;max-width:650px}.card .context{margin-top:20px;font-size:18px;line-height:1.5;max-width:650px}.card .answer{display:none;margin-top:24px;padding-top:20px;border-top:1px solid var(--line);width:100%}.card.revealed .answer{display:block}.answer b{font-size:23px;color:var(--accent-dark)}.answer p{margin:10px auto 0;color:#626777;line-height:1.5;max-width:650px}.answer .ipa{font-size:14px;margin-top:6px}
+.rating{display:none;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.rating.show{display:grid}.rating button{padding:14px;border:0;border-radius:13px;cursor:pointer;font-weight:850}.dontKnow{background:var(--bad-soft);color:var(--bad)}.know{background:var(--good-soft);color:var(--good)}.ratingHint{font-size:12px;color:var(--muted);text-align:center;margin-top:9px;line-height:1.45}
+.cardPager{display:grid;grid-template-columns:48px minmax(0,1fr) 48px;gap:12px;align-items:center}.studyArrow{width:48px;height:48px;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:50%;box-shadow:0 5px 16px rgba(38,42,70,.08);cursor:pointer;font-size:22px;font-weight:800;display:flex;align-items:center;justify-content:center;transition:.16s ease}.studyArrow:hover{transform:translateY(-1px);border-color:#c9c2f7;color:var(--accent-dark);box-shadow:0 8px 20px rgba(38,42,70,.12)}.studyArrow:active{transform:translateY(0)}
+.writePager{display:flex;justify-content:space-between;gap:10px;margin-top:12px}.writePager .btn{min-width:128px}.writePager .pagerCount{display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;font-weight:700;text-align:center;flex:1}
+.qbox{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:var(--shadow)}.qbox .prompt{font-size:20px;line-height:1.5;margin:10px 0 18px}.qbox input{width:100%;padding:14px;border:1px solid #d9dce5;border-radius:12px;outline:none}.qbox input:focus{border-color:#aaa0ef;box-shadow:0 0 0 3px rgba(109,91,231,.08)}.feedback{margin-top:13px;font-weight:650;line-height:1.5}.inlineAction{border:1px solid #d7d2ff;background:#f5f3ff;color:var(--accent-dark);border-radius:9px;padding:6px 9px;margin-left:8px;cursor:pointer;font-size:12px;font-weight:800}
+.speaking{max-width:840px}.targetGrid{display:flex;flex-wrap:wrap;gap:8px}.targetChip{padding:8px 10px;border-radius:12px;background:#f3f4f8;border:1px solid var(--line);font-weight:700}.targetChip.collocation{background:var(--accent-soft);color:var(--accent-dark)}.targetChip small{display:block;font-weight:400;color:#777c8b;margin-top:2px}.speakPrompt{font-size:20px;line-height:1.5;background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow)}.timer{font-size:40px;font-weight:900;margin:18px 0}.empty{padding:36px 24px;text-align:center;color:var(--muted);border:1px dashed #cdd1dc;border-radius:16px;background:#fbfcfe}.tiny{font-size:12px;color:var(--muted)}
+.typeStats{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.typeStat{padding:17px}.typeStat h3{margin:0 0 11px;font-size:16px}.typeStat .nums{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.typeStat .nums b{font-size:20px;display:block}.typeStat small{color:var(--muted)}
+.editBtn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 10px;cursor:pointer}.editBtn:hover{background:#f8f8fc}
+.writeNav{display:flex;gap:8px;align-items:center}.writeActions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+.modalBack{display:none;position:fixed;inset:0;background:rgba(25,28,45,.46);z-index:50;align-items:center;justify-content:center;padding:18px}.modalBack.show{display:flex}.modal{background:#fff;width:min(650px,100%);max-height:90vh;overflow:auto;border-radius:20px;padding:22px;box-shadow:0 24px 80px rgba(20,23,40,.22)}.modal h2{margin-top:0}.formGrid{display:grid;gap:12px}.formGrid label{font-size:13px;font-weight:750}.formGrid input,.formGrid textarea,.formGrid select{width:100%;margin-top:5px;border:1px solid var(--line);border-radius:10px;padding:10px}.formGrid textarea{min-height:75px;resize:vertical}.modalActions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+.syncBox{display:flex;align-items:center;gap:8px;margin-left:auto}.syncBtn{display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:#fff;color:#4d5262;border-radius:12px;padding:9px 11px;cursor:pointer;font-weight:750;white-space:nowrap}.syncBtn:hover{background:#fafaff}.syncDot{width:8px;height:8px;border-radius:50%;background:#a6abba}.syncDot.online{background:var(--good)}.syncDot.busy{background:#d59b25}.syncDot.error{background:var(--bad)}.syncLabel{font-size:12px}.authNote{background:#f7f7fb;border:1px solid var(--line);border-radius:12px;padding:11px 12px;color:#636879;font-size:13px;line-height:1.5}.cloudMeta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px}.cloudBadge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:6px 9px;background:var(--good-soft);color:var(--good);font-size:12px;font-weight:800}.cloudBadge.local{background:#f0f1f5;color:#6d7280}.authError{color:var(--bad);font-size:13px;min-height:18px;margin-top:8px}.authUser{font-weight:800;word-break:break-word}
+@media(max-width:860px){
+  body{padding-bottom:env(safe-area-inset-bottom);overflow-x:hidden}
+  .shell{display:block;padding:16px 13px calc(84px + env(safe-area-inset-bottom))}
+  .nav{
+    position:fixed!important;
+    left:0;right:0;bottom:0;top:auto!important;
+    width:100%;height:auto!important;min-height:0!important;max-height:none!important;
+    z-index:100;
+    background:rgba(255,255,255,.96);
+    -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    border-top:1px solid var(--line);
+    display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:4px;align-items:stretch;
+    padding:6px 8px calc(6px + env(safe-area-inset-bottom));
+    box-shadow:0 -8px 28px rgba(35,39,65,.07)
+  }
+  .nav button{
+    min-width:0;min-height:44px;height:44px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;line-height:1.1;text-align:center;
+    padding:7px 3px;border-radius:11px;white-space:nowrap
+  }
+  .nav button.active{background:var(--accent-soft)}
+  .top{position:sticky;top:0}
+  .topin{padding:10px 13px;gap:8px;flex-wrap:wrap}
+  .brand{font-size:17px;order:1}
+  .syncBox{margin-left:auto;order:2}
+  .syncLabel{display:none}.syncBtn{padding:9px}
+  .topic{order:3;width:100%;margin-left:0;display:grid;grid-template-columns:1fr}
+  .topic .tiny{display:none}
+  .topic select{width:100%;max-width:none;min-width:0;padding:9px 11px}
+  .main{width:100%;min-width:0}
+  .hero{align-items:flex-start}.hero h1{font-size:27px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid .stat:last-child{grid-column:1/-1}
+  .modes{grid-template-columns:1fr}
+  .row{grid-template-columns:1fr}.row .ex{display:none}
+  .typeStats{grid-template-columns:1fr}
+  .card{min-height:54vh;padding:22px}.card .big{font-size:25px}.card .context{font-size:17px}
+  .cardPager{grid-template-columns:1fr;gap:10px}.cardPager .studyArrow{grid-row:2;width:46px;height:46px}.cardPager .studyArrow.prev{grid-column:1;justify-self:start}.cardPager .studyArrow.next{grid-column:1;justify-self:end;margin-top:-56px}.cardPager .card{grid-row:1;grid-column:1}
+  .writePager{margin-top:10px}.writePager .btn{min-width:0;flex:1}.writePager .pagerCount{display:none}
+  .studyHead{align-items:flex-start}.studyControls{align-items:flex-start}
+  .typeStat .nums{grid-template-columns:repeat(4,1fr)}
+  .modalBack{padding:12px 12px calc(78px + env(safe-area-inset-bottom))}.modal{max-height:calc(100dvh - 110px)}
+}
+@media(max-width:520px){
+  .grid{grid-template-columns:1fr}.grid .stat:last-child{grid-column:auto}
+  .hero{display:block}.hero .btn{margin-top:12px}
+  .studyHead{display:block}.studyTools{justify-content:flex-start;margin-top:10px}
+  .studyControls{display:block}.controlGroup+.controlGroup{margin-top:10px}
+  .segmented{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.segmented button{padding:9px 5px;min-width:0}
+  .rating{grid-template-columns:1fr 1fr}
+  .typeStat .nums{grid-template-columns:repeat(2,1fr)}
+  .filters{display:grid;grid-template-columns:1fr}.filters input,.filters select{width:100%;min-width:0}
+  .qbox{padding:18px}.speakPrompt{padding:18px}.panel{padding:17px}
+  .card{min-height:50vh;border-radius:20px}
+}
+</style>
+</head>
+<body><div class="app">
+<header class="top"><div class="topin"><div class="brand">IELTS <span>Vocab Lab</span></div><div class="syncBox"><button class="syncBtn" id="cloudBtn" onclick="openAuthModal()"><span class="syncDot" id="syncDot"></span><span class="syncLabel" id="syncLabel">Local only</span></button></div><div class="topic"><span class="tiny">Topic</span><select id="topicSelect" class="pill"><option>Environment</option><option>Education</option><option>Technology</option><option>Work & Careers</option><option>Health & Wellbeing</option><option>Cities & Transport</option><option>Government</option><option>Crime & Law</option><option>Media</option><option>Culture</option><option>Family</option><option>Children & Parenting</option><option>Food</option><option>Housing</option><option>Travel & Tourism</option><option>Globalisation</option><option>Science & Innovation</option><option>Economy</option><option>Social Issues</option><option>Sport & Leisure</option><option>Animals & Wildlife</option><option>Mixed / weak areas</option></select></div></div></header>
+<div class="shell">
+<nav class="nav" id="nav"><button class="active" data-view="home">Overview</button><button data-view="library">Library</button><button data-view="flash">Flashcards</button><button data-view="write">Write</button><button data-view="speak">Speak</button></nav>
+<main class="main">
+<section class="view active" id="home"><div class="hero"><div><h1>Environment</h1><p>IELTS vocabulary & collocations • Speaking + Writing</p></div><button class="btn" onclick="openView('flash')">Study now</button></div><div class="grid"><div class="stat"><div class="n" id="totalN">0</div><div class="l">items in this topic</div></div><div class="stat"><div class="n" id="masteredN">0</div><div class="l">mastered</div></div><div class="stat"><div class="n" id="dueN">0</div><div class="l">due for review</div></div></div><div class="panel"><h2>Topic progress</h2><div class="progress"><i id="progBar"></i></div><p class="tiny" id="progText"></p></div><div class="typeStats"><div class="typeStat"><h3>Words</h3><div class="nums"><span><b id="wordTotal">0</b><small>Total</small></span><span><b id="wordMastered">0</b><small>Mastered</small></span><span><b id="wordDue">0</b><small>Due</small></span><span><b id="wordDifficult">0</b><small>Needs work</small></span></div></div><div class="typeStat"><h3>Collocations</h3><div class="nums"><span><b id="collTotal">0</b><small>Total</small></span><span><b id="collMastered">0</b><small>Mastered</small></span><span><b id="collDue">0</b><small>Due</small></span><span><b id="collDifficult">0</b><small>Needs work</small></span></div></div></div><div class="panel"><h2>Study modes</h2><div class="modes"><div class="mode" onclick="openView('flash')"><b>Flashcards</b><small>Recall a word or collocation from Russian meaning and context.</small></div><div class="mode" onclick="openView('write')"><b>Written recall</b><small>Type the target vocabulary from a Russian IELTS-style cue.</small></div><div class="mode" onclick="openView('speak')"><b>Speaking drill</b><small>Use several target words and collocations in an IELTS Part 2/3 answer.</small></div><div class="mode" onclick="openView('library')"><b>Review library</b><small>Browse, search, edit and add vocabulary.</small></div></div></div><div class="panel"><h2>How progress works</h2><p><b>Know</b> increases mastery and schedules the item for a later review. <b>Don't know</b> lowers mastery and marks the item as <b>Needs work</b>. In Flashcards and Write you can switch to <b>Difficult only</b> to practise just those items. Two correct recalls in a row remove an item from the difficult list.</p><p class="tiny">Progress is saved locally and, when you sign in, synced to your private Supabase account across devices.</p></div></section>
+<section class="view" id="library"><div class="hero"><div><h1>Library</h1><p>Your vocabulary database</p></div><button class="btn" onclick="openAdd()">+ Add item</button></div><div class="filters"><input id="search" placeholder="Search words, collocations or examples…"><select id="typeFilter"><option value="all">All types</option><option value="collocation">Collocations</option><option value="word">Words</option></select></div><div class="table" id="libraryList"></div></section>
+<section class="view" id="flash"><div class="studyWrap"><div class="studyHead"><div><div class="studyTitle">Flashcards</div><div class="tiny" id="fcCount"></div></div><div class="studyTools"><button class="btn ghost small" onclick="shuffleDeck()">Shuffle</button></div></div><div class="studyControls"><div class="controlGroup"><span class="controlLabel">Study</span><div class="segmented"><button id="flashAll" class="active" onclick="setFlashType('all')">All</button><button id="flashWords" onclick="setFlashType('word')">Words</button><button id="flashColls" onclick="setFlashType('collocation')">Collocations</button></div></div><div class="controlGroup"><button id="flashDifficult" class="filterToggle" onclick="toggleFlashDifficult()">Difficult only</button></div></div><div class="cardPager"><button class="studyArrow prev" aria-label="Previous flashcard" onclick="prevCard(event)">←</button><div class="card" id="flashCard" onclick="toggleCard()"></div><button class="studyArrow next" aria-label="Next flashcard" onclick="nextCard(event)">→</button></div><div class="rating" id="rating"><button class="dontKnow" onclick="rateCard(event,false)">Don't know</button><button class="know" onclick="rateCard(event,true)">Know</button></div><div class="ratingHint">“Don't know” marks the item as difficult and keeps it in active review. “Know” raises mastery; two correct recalls in a row clear the difficult flag.</div></div></section>
+<section class="view" id="write"><div class="quiz"><div class="studyHead"><div><div class="studyTitle">Written recall</div><div class="tiny" id="writeCount"></div></div></div><div class="studyControls"><div class="controlGroup"><span class="controlLabel">Study</span><div class="segmented"><button id="writeAll" class="active" onclick="setWriteType('all')">All</button><button id="writeWords" onclick="setWriteType('word')">Words</button><button id="writeColls" onclick="setWriteType('collocation')">Collocations</button></div></div><div class="controlGroup"><button id="writeDifficult" class="filterToggle" onclick="toggleWriteDifficult()">Difficult only</button></div></div><div class="qbox"><span class="badge">Translate into English</span><div class="prompt" id="writePrompt"></div><input id="writeInput" autocomplete="off" placeholder="Type the target word or collocation…" onkeydown="if(event.key==='Enter')checkWrite()"><div class="writeActions"><button class="btn" onclick="checkWrite()">Check</button><button class="btn secondary" onclick="showWriteAnswer()">Show answer</button></div><div class="feedback" id="writeFeedback"></div></div><div class="writePager"><button class="btn ghost small" onclick="prevWrite()">← Previous</button><div class="pagerCount" id="writePagerCount"></div><button class="btn ghost small" onclick="nextWrite()">Next →</button></div></div></section>
+<section class="view" id="speak"><div class="speaking"><div class="hero"><div><h1>Speaking drill</h1><p>IELTS Part 2/3 active vocabulary practice</p></div></div><div class="speakPrompt" id="speakPrompt"></div><div class="timer" id="timer">01:00</div><button class="btn" onclick="toggleTimer()" id="timerBtn">Start 1 min</button> <button class="btn ghost" onclick="nextSpeak()">Next prompt</button><div class="panel"><h2>Target vocabulary</h2><div id="speakTarget"></div><p class="tiny">Try to use the phrase naturally. After speaking, reveal the model line only if you need it.</p><button class="btn secondary" onclick="toggleModel()">Show / hide model line</button><p id="modelLine" style="display:none"></p></div></div></section>
+</main></div></div>
+<div class="modalBack" id="editBack"><div class="modal"><h2 id="modalTitle">Edit vocabulary item</h2><div class="formGrid"><label>English term<input id="editTerm"></label><label>Type<select id="editType"><option value="word">Word</option><option value="collocation">Collocation</option></select></label><label>Topic<input id="editTopic" disabled></label><label>IPA (words only)<input id="editIpa"></label><label>Russian meaning<input id="editRu"></label><label>English example<textarea id="editEx"></textarea></label><label>Russian contextual cue<textarea id="editRex"></textarea></label></div><div class="modalActions"><button class="btn ghost" onclick="closeEdit()">Cancel</button><button class="btn" onclick="saveEdit()">Save</button></div></div></div>
+<div class="modalBack" id="authBack"><div class="modal" style="width:min(500px,100%)"><h2>Cloud sync</h2><div id="authSignedOut"><div class="cloudMeta"><span class="cloudBadge local">Local mode</span></div><p style="margin-top:0;color:var(--muted);line-height:1.55">Sign in to keep your vocabulary and study progress synced between your computer and phone.</p><div class="formGrid"><label>Email<input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com"></label><label>Password<input id="authPassword" type="password" autocomplete="current-password" placeholder="Password"></label></div><div class="authError" id="authError"></div><div class="modalActions"><button class="btn ghost" onclick="closeAuthModal()">Cancel</button><button class="btn" id="signInBtn" onclick="signInCloud()">Sign in</button></div><div class="authNote">For this personal version, create your user once in Supabase → Authentication → Users. Then use the same email and password here.</div></div><div id="authSignedIn" style="display:none"><div class="cloudMeta"><span class="cloudBadge">● Cloud sync active</span></div><p>Signed in as <span class="authUser" id="authUser"></span>.</p><p class="tiny" id="authSyncMeta">Your vocabulary and progress are synced.</p><div class="modalActions"><button class="btn ghost" onclick="closeAuthModal()">Close</button><button class="btn secondary" onclick="syncAllCloud(true)">Sync now</button><button class="btn ghost" onclick="signOutCloud()">Sign out</button></div></div></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const items=[
+{t:'to take steps to',ru:'предпринять шаги, чтобы',ex:'The government should take several steps to reduce air pollution.',rex:'Правительству следует предпринять несколько шагов, чтобы сократить загрязнение воздуха.'},
+{t:'to take action',ru:'принять меры / начать действовать',ex:'The city administration needs to take action to develop recycling infrastructure.',rex:'Городской администрации необходимо принять меры для развития инфраструктуры переработки.'},
+{t:'to enforce regulations',ru:'обеспечивать соблюдение правил / норм',ex:'It is crucial to enforce environmental regulations more strictly.',rex:'Крайне важно строже обеспечивать соблюдение экологических норм.'},
+{t:'to have a damaging effect on',ru:'оказывать разрушительное / негативное воздействие на',ex:'Deforestation can have a damaging effect on wildlife.',rex:'Вырубка лесов может оказывать разрушительное воздействие на дикую природу.'},
+{t:'to lose their natural habitat',ru:'лишиться естественной среды обитания',ex:'Many wild animals lose their natural habitat because of deforestation.',rex:'Многие дикие животные лишаются естественной среды обитания из-за вырубки лесов.'},
+{t:'to raise public awareness',ru:'повышать осведомлённость общественности',ex:'Schools and the media can help raise public awareness of environmental issues.',rex:'Школы и СМИ могут помочь повысить осведомлённость общественности об экологических проблемах.'},
+{t:'to make a significant difference',ru:'существенно повлиять / значительно изменить ситуацию',ex:"Small changes in people's daily habits can make a significant difference on a large scale.",rex:'Небольшие изменения в повседневных привычках людей могут существенно изменить ситуацию в большом масштабе.'},
+{t:'to develop a recycling habit',ru:'выработать привычку сортировать / перерабатывать отходы',ex:"I tried to develop a recycling habit, but I didn't stick with it.",rex:'Я пытался выработать привычку сортировать отходы, но не смог её придерживаться.'},
+{t:'to be environmentally conscious',ru:'быть экологически сознательным',ex:"I would say I'm particularly environmentally conscious.",rex:'Я бы сказал, что я довольно экологически сознательный человек.'},
+{t:'to affect everyone on the planet',ru:'затрагивать каждого человека на планете',ex:'Climate change affects everyone on the planet in some way.',rex:'Изменение климата так или иначе затрагивает каждого человека на планете.'},
+{t:'to pollute water resources',ru:'загрязнять водные ресурсы',ex:'Industrial activity can pollute water resources.',rex:'Промышленная деятельность может загрязнять водные ресурсы.'},
+{t:'to rely on public transport',ru:'полагаться на общественный транспорт / регулярно им пользоваться',ex:'Many people in my town rely on public transport.',rex:'Многие люди в моём городе регулярно пользуются общественным транспортом.'},
+{t:'to benefit financially from',ru:'получать финансовую выгоду от',ex:'Some companies benefit financially from commercial logging.',rex:'Некоторые компании получают финансовую выгоду от коммерческой вырубки леса.'},
+{t:'to lack effective regulations',ru:'не иметь эффективного регулирования / испытывать нехватку эффективных норм',ex:'Some industries still lack effective environmental regulations.',rex:'В некоторых отраслях всё ещё отсутствует эффективное экологическое регулирование.'},
+{t:'to release carbon dioxide into the atmosphere',ru:'выбрасывать углекислый газ в атмосферу',ex:'Cars with internal combustion engines release carbon dioxide into the atmosphere.',rex:'Автомобили с двигателями внутреннего сгорания выбрасывают углекислый газ в атмосферу.'},
+{t:'to come with significant drawbacks',ru:'иметь существенные недостатки',ex:'Renewable energy can also come with significant drawbacks.',rex:'Возобновляемая энергетика также может иметь существенные недостатки.'},
+{t:'to be energy-intensive to manufacture',ru:'требовать много энергии при производстве',ex:'Solar panels are energy-intensive to manufacture.',rex:'Производство солнечных панелей требует большого количества энергии.'},
+{t:'to pose a threat to wildlife',ru:'представлять угрозу для дикой природы',ex:'Deforestation poses a serious threat to wildlife.',rex:'Вырубка лесов представляет серьёзную угрозу для дикой природы.'},
+{t:'to reduce household waste',ru:'сокращать бытовые отходы',ex:'Recycling can help people reduce household waste.',rex:'Переработка может помочь людям сократить количество бытовых отходов.'},
+{t:'to protect endangered species',ru:'защищать исчезающие виды',ex:'Stricter laws can help protect endangered species.',rex:'Более строгие законы могут помочь защитить исчезающие виды.'}
+].map((x,i)=>({...x,id:i+1,type:'collocation',topic:'Environment'}));
+const wordItems=[{"t": "environmentalist", "ru": "защитник окружающей среды", "ipa": "/ɪnˌvaɪrənˈmentəlɪst/", "ex": "Environmentalists often campaign against deforestation.", "rex": "Защитники окружающей среды часто выступают против вырубки лесов.", "id": 101, "type": "word", "topic": "Environment"}, {"t": "environmentally friendly", "ru": "экологичный", "ipa": "/ɪnˌvaɪrənˈmentəli ˈfrendli/", "ex": "Public transport is generally more environmentally friendly than driving alone.", "rex": "Общественный транспорт обычно экологичнее, чем поездки на машине в одиночку.", "id": 102, "type": "word", "topic": "Environment"}, {"t": "natural environment", "ru": "природная среда", "ipa": "/ˌnætʃrəl ɪnˈvaɪrənmənt/", "ex": "Tourism should not damage the natural environment.", "rex": "Туризм не должен наносить вред природной среде.", "id": 103, "type": "word", "topic": "Environment"}, {"t": "environmental hazard", "ru": "экологическая угроза", "ipa": "/ɪnˌvaɪrənˈmentəl ˈhæzəd/", "ex": "Oil spills are a serious environmental hazard.", "rex": "Разливы нефти представляют серьёзную экологическую угрозу.", "id": 104, "type": "word", "topic": "Environment"}, {"t": "conservation", "ru": "сохранение и охрана природы", "ipa": "/ˌkɒnsəˈveɪʃən/", "ex": "Wildlife conservation requires long-term funding.", "rex": "Охрана дикой природы требует долгосрочного финансирования.", "id": 105, "type": "word", "topic": "Environment"}, {"t": "conservationist", "ru": "защитник природы", "ipa": "/ˌkɒnsəˈveɪʃənɪst/", "ex": "Conservationists are trying to protect the remaining forest.", "rex": "Защитники природы пытаются сохранить оставшийся лес.", "id": 106, "type": "word", "topic": "Environment"}, {"t": "wildlife", "ru": "дикая природа", "ipa": "/ˈwaɪldlaɪf/", "ex": "Plastic pollution can be extremely harmful to wildlife.", "rex": "Загрязнение пластиком может быть крайне вредным для дикой природы.", "id": 107, "type": "word", "topic": "Environment"}, {"t": "creature", "ru": "существо, живое существо", "ipa": "/ˈkriːtʃə/", "ex": "Many sea creatures are affected by plastic waste.", "rex": "Многие морские существа страдают от пластиковых отходов.", "id": 108, "type": "word", "topic": "Environment"}, {"t": "vegetation", "ru": "растительность", "ipa": "/ˌvedʒəˈteɪʃən/", "ex": "The fire destroyed large areas of vegetation.", "rex": "Пожар уничтожил большие площади растительности.", "id": 109, "type": "word", "topic": "Environment"}, {"t": "species", "ru": "вид", "ipa": "/ˈspiːʃiːz/", "ex": "Several species in the region are now endangered.", "rex": "Несколько видов в этом регионе сейчас находятся под угрозой исчезновения.", "id": 110, "type": "word", "topic": "Environment"}, {"t": "biodiversity", "ru": "биоразнообразие", "ipa": "/ˌbaɪəʊdaɪˈvɜːsəti/", "ex": "Deforestation leads to a loss of biodiversity.", "rex": "Вырубка лесов приводит к утрате биоразнообразия.", "id": 111, "type": "word", "topic": "Environment"}, {"t": "habitat", "ru": "среда обитания", "ipa": "/ˈhæbɪtæt/", "ex": "Wetlands provide a habitat for many rare birds.", "rex": "Водно-болотные угодья служат средой обитания для многих редких птиц.", "id": 112, "type": "word", "topic": "Environment"}, {"t": "to inhabit", "ru": "обитать, населять", "ipa": "/ɪnˈhæbɪt/", "ex": "Hundreds of species inhabit this forest.", "rex": "Сотни видов обитают в этом лесу.", "id": 113, "type": "word", "topic": "Environment"}, {"t": "natural surroundings", "ru": "естественная среда, природное окружение", "ipa": "/ˌnætʃrəl səˈraʊndɪŋz/", "ex": "Animals behave differently in their natural surroundings.", "rex": "Животные ведут себя иначе в своей естественной среде.", "id": 114, "type": "word", "topic": "Environment"}, {"t": "to evolve", "ru": "эволюционировать, развиваться", "ipa": "/ɪˈvɒlv/", "ex": "Species evolve over long periods of time.", "rex": "Виды эволюционируют на протяжении длительных периодов времени.", "id": 115, "type": "word", "topic": "Environment"}, {"t": "to thrive", "ru": "процветать, успешно развиваться", "ipa": "/θraɪv/", "ex": "Some species thrive in protected areas.", "rex": "Некоторые виды успешно развиваются на охраняемых территориях.", "id": 116, "type": "word", "topic": "Environment"}, {"t": "marine", "ru": "морской", "ipa": "/məˈriːn/", "ex": "Marine ecosystems are vulnerable to pollution.", "rex": "Морские экосистемы уязвимы к загрязнению.", "id": 117, "type": "word", "topic": "Environment"}, {"t": "nocturnal", "ru": "ночной, активный ночью", "ipa": "/nɒkˈtɜːnəl/", "ex": "Many desert animals are nocturnal.", "rex": "Многие пустынные животные активны ночью.", "id": 118, "type": "word", "topic": "Environment"}, {"t": "extinction", "ru": "вымирание", "ipa": "/ɪkˈstɪŋkʃən/", "ex": "Many species are threatened with extinction because of habitat loss.", "rex": "Многим видам угрожает вымирание из-за утраты среды обитания.", "id": 119, "type": "word", "topic": "Environment"}, {"t": "dying out", "ru": "вымирание", "ipa": "/ˌdaɪɪŋ ˈaʊt/", "ex": "Some animal populations are gradually dying out.", "rex": "Некоторые популяции животных постепенно вымирают.", "id": 120, "type": "word", "topic": "Environment"}, {"t": "combat climate change", "ru": "бороться с изменением климата", "ipa": "/ˈkɒmbæt ˈklaɪmət tʃeɪndʒ/", "ex": "Countries need to cooperate to combat climate change.", "rex": "Странам необходимо сотрудничать, чтобы бороться с изменением климата.", "id": 121, "type": "word", "topic": "Environment"}, {"t": "rich in natural resources", "ru": "богатый природными ресурсами", "ipa": "/rɪtʃ ɪn ˌnætʃrəl rɪˈzɔːsɪz/", "ex": "Siberia is rich in natural resources.", "rex": "Сибирь богата природными ресурсами.", "id": 122, "type": "word", "topic": "Environment"}, {"t": "fossil fuels", "ru": "ископаемое топливо", "ipa": "/ˈfɒsəl ˌfjuːəlz/", "ex": "Burning fossil fuels releases greenhouse gases.", "rex": "Сжигание ископаемого топлива приводит к выбросам парниковых газов.", "id": 123, "type": "word", "topic": "Environment"}, {"t": "ozone layer", "ru": "озоновый слой", "ipa": "/ˈəʊzəʊn ˌleɪə/", "ex": "The ozone layer protects the Earth from harmful radiation.", "rex": "Озоновый слой защищает Землю от вредного излучения.", "id": 124, "type": "word", "topic": "Environment"}, {"t": "carbon dioxide", "ru": "углекислый газ", "ipa": "/ˌkɑːbən daɪˈɒksaɪd/", "ex": "Cars and factories release carbon dioxide into the atmosphere.", "rex": "Автомобили и заводы выбрасывают углекислый газ в атмосферу.", "id": 125, "type": "word", "topic": "Environment"}, {"t": "carbon monoxide", "ru": "угарный газ", "ipa": "/ˌkɑːbən məˈnɒksaɪd/", "ex": "Carbon monoxide is a poisonous gas.", "rex": "Угарный газ является ядовитым газом.", "id": 126, "type": "word", "topic": "Environment"}, {"t": "greenhouse gas", "ru": "парниковый газ", "ipa": "/ˈɡriːnhaʊs ɡæs/", "ex": "Methane is a powerful greenhouse gas.", "rex": "Метан является мощным парниковым газом.", "id": 127, "type": "word", "topic": "Environment"}, {"t": "erosion", "ru": "эрозия", "ipa": "/ɪˈrəʊʒən/", "ex": "Deforestation can accelerate soil erosion.", "rex": "Вырубка лесов может ускорить эрозию почвы.", "id": 128, "type": "word", "topic": "Environment"}, {"t": "land clearance", "ru": "расчистка земли", "ipa": "/ˈlænd ˌklɪərəns/", "ex": "Land clearance for agriculture can destroy habitats.", "rex": "Расчистка земель под сельское хозяйство может уничтожать места обитания.", "id": 129, "type": "word", "topic": "Environment"}, {"t": "logging", "ru": "лесозаготовка, вырубка леса", "ipa": "/ˈlɒɡɪŋ/", "ex": "Commercial logging is a major cause of forest loss.", "rex": "Коммерческая лесозаготовка является одной из основных причин сокращения лесов.", "id": 130, "type": "word", "topic": "Environment"}, {"t": "logging unit", "ru": "лесозаготовительный участок", "ipa": "/ˈlɒɡɪŋ ˌjuːnɪt/", "ex": "The logging unit operates in a remote area.", "rex": "Лесозаготовительный участок находится в удалённом районе.", "id": 131, "type": "word", "topic": "Environment"}, {"t": "carbon footprint", "ru": "углеродный след", "ipa": "/ˈkɑːbən ˌfʊtprɪnt/", "ex": "Flying frequently can increase your carbon footprint.", "rex": "Частые перелёты могут увеличить ваш углеродный след.", "id": 132, "type": "word", "topic": "Environment"}, {"t": "disposable products", "ru": "одноразовая продукция", "ipa": "/dɪˈspəʊzəbəl ˌprɒdʌkts/", "ex": "We should reduce our use of disposable products.", "rex": "Нам следует сократить использование одноразовой продукции.", "id": 133, "type": "word", "topic": "Environment"}, {"t": "dumping ground", "ru": "свалка, место сброса отходов", "ipa": "/ˈdʌmpɪŋ ɡraʊnd/", "ex": "The area should not be used as a dumping ground.", "rex": "Этот район не должен использоваться как свалка.", "id": 134, "type": "word", "topic": "Environment"}, {"t": "acid rain", "ru": "кислотный дождь", "ipa": "/ˌæsɪd ˈreɪn/", "ex": "Acid rain can damage forests and lakes.", "rex": "Кислотные дожди могут наносить вред лесам и озёрам.", "id": 135, "type": "word", "topic": "Environment"}, {"t": "to contaminate", "ru": "загрязнять, заражать", "ipa": "/kənˈtæmɪneɪt/", "ex": "Industrial waste can contaminate drinking water.", "rex": "Промышленные отходы могут загрязнять питьевую воду.", "id": 136, "type": "word", "topic": "Environment"}, {"t": "depletion", "ru": "истощение, уменьшение запасов", "ipa": "/dɪˈpliːʃən/", "ex": "Resource depletion is a long-term environmental concern.", "rex": "Истощение ресурсов является долгосрочной экологической проблемой.", "id": 137, "type": "word", "topic": "Environment"}, {"t": "fumes", "ru": "токсичные пары, дым, выхлопы", "ipa": "/fjuːmz/", "ex": "Traffic fumes contribute to poor air quality.", "rex": "Выхлопные газы транспорта ухудшают качество воздуха.", "id": 138, "type": "word", "topic": "Environment"}, {"t": "to fume", "ru": "дымить, выделять пары", "ipa": "/fjuːm/", "ex": "The damaged equipment continued to fume after the fire.", "rex": "Повреждённое оборудование продолжало дымить после пожара.", "id": 139, "type": "word", "topic": "Environment"}, {"t": "smog", "ru": "смог", "ipa": "/smɒɡ/", "ex": "Large cities often struggle with smog.", "rex": "Крупные города часто сталкиваются со смогом.", "id": 140, "type": "word", "topic": "Environment"}, {"t": "poisonous", "ru": "ядовитый", "ipa": "/ˈpɔɪzənəs/", "ex": "Some industrial chemicals are poisonous to wildlife.", "rex": "Некоторые промышленные химикаты ядовиты для дикой природы.", "id": 141, "type": "word", "topic": "Environment"}, {"t": "threat", "ru": "угроза", "ipa": "/θret/", "ex": "Climate change is a serious threat to biodiversity.", "rex": "Изменение климата представляет серьёзную угрозу биоразнообразию.", "id": 142, "type": "word", "topic": "Environment"}, {"t": "to endanger", "ru": "подвергать опасности", "ipa": "/ɪnˈdeɪndʒə/", "ex": "Illegal hunting can endanger rare species.", "rex": "Незаконная охота может подвергать редкие виды опасности.", "id": 143, "type": "word", "topic": "Environment"}, {"t": "to poach", "ru": "заниматься браконьерством", "ipa": "/pəʊtʃ/", "ex": "Some animals are still poached for their tusks or skins.", "rex": "На некоторых животных всё ещё незаконно охотятся ради бивней или шкур.", "id": 144, "type": "word", "topic": "Environment"}, {"t": "poaching", "ru": "браконьерство", "ipa": "/ˈpəʊtʃɪŋ/", "ex": "Poaching remains a major threat to elephants.", "rex": "Браконьерство остаётся серьёзной угрозой для слонов.", "id": 145, "type": "word", "topic": "Environment"}, {"t": "drought", "ru": "засуха", "ipa": "/draʊt/", "ex": "Long periods of drought can destroy crops.", "rex": "Длительные периоды засухи могут уничтожать урожай.", "id": 146, "type": "word", "topic": "Environment"}, {"t": "flooding", "ru": "наводнение, затопление", "ipa": "/ˈflʌdɪŋ/", "ex": "Climate change may increase the risk of coastal flooding.", "rex": "Изменение климата может увеличить риск прибрежных наводнений.", "id": 147, "type": "word", "topic": "Environment"}, {"t": "flash flood", "ru": "внезапное наводнение", "ipa": "/ˌflæʃ ˈflʌd/", "ex": "Heavy rain can cause a flash flood within minutes.", "rex": "Сильный дождь может вызвать внезапное наводнение за считанные минуты.", "id": 148, "type": "word", "topic": "Environment"}, {"t": "to preserve", "ru": "сохранять, оберегать", "ipa": "/prɪˈzɜːv/", "ex": "National parks help preserve natural habitats.", "rex": "Национальные парки помогают сохранять естественные места обитания.", "id": 149, "type": "word", "topic": "Environment"}, {"t": "a preserve", "ru": "заповедник", "ipa": "/ˈprezəv/", "ex": "The animals live in a protected wildlife preserve.", "rex": "Животные живут в охраняемом заповеднике.", "id": 150, "type": "word", "topic": "Environment"}, {"t": "wildlife preservation", "ru": "охрана дикой природы", "ipa": "/ˈwaɪldlaɪf ˌprezəˈveɪʃən/", "ex": "Wildlife preservation should be a national priority.", "rex": "Охрана дикой природы должна быть национальным приоритетом.", "id": 151, "type": "word", "topic": "Environment"}, {"t": "biodegradable", "ru": "биоразлагаемый", "ipa": "/ˌbaɪəʊdɪˈɡreɪdəbəl/", "ex": "Biodegradable packaging can reduce plastic waste.", "rex": "Биоразлагаемая упаковка может сократить пластиковые отходы.", "id": 152, "type": "word", "topic": "Environment"}, {"t": "carbon-neutral", "ru": "углеродно-нейтральный", "ipa": "/ˌkɑːbən ˈnjuːtrəl/", "ex": "Some companies aim to become carbon-neutral.", "rex": "Некоторые компании стремятся стать углеродно-нейтральными.", "id": 153, "type": "word", "topic": "Environment"}, {"t": "sustainable", "ru": "устойчивый, экологически устойчивый", "ipa": "/səˈsteɪnəbəl/", "ex": "Cities need more sustainable transport systems.", "rex": "Городам нужны более устойчивые транспортные системы.", "id": 154, "type": "word", "topic": "Environment"}, {"t": "sustainability", "ru": "устойчивое развитие", "ipa": "/səˌsteɪnəˈbɪləti/", "ex": "Sustainability is becoming more important for businesses.", "rex": "Устойчивое развитие становится всё более важным для бизнеса.", "id": 155, "type": "word", "topic": "Environment"}, {"t": "renewable energy", "ru": "возобновляемая энергия", "ipa": "/rɪˌnjuːəbəl ˈenədʒi/", "ex": "Renewable energy can reduce dependence on fossil fuels.", "rex": "Возобновляемая энергия может снизить зависимость от ископаемого топлива.", "id": 156, "type": "word", "topic": "Environment"}, {"t": "solar power", "ru": "солнечная энергия", "ipa": "/ˈsəʊlə ˌpaʊə/", "ex": "Solar power is becoming cheaper in many countries.", "rex": "Солнечная энергия становится дешевле во многих странах.", "id": 157, "type": "word", "topic": "Environment"}, {"t": "wind turbine", "ru": "ветряная турбина", "ipa": "/ˈwɪnd ˌtɜːbaɪn/", "ex": "Wind turbines generate electricity without burning fossil fuels.", "rex": "Ветряные турбины вырабатывают электричество без сжигания ископаемого топлива.", "id": 158, "type": "word", "topic": "Environment"}, {"t": "organic farming", "ru": "органическое сельское хозяйство", "ipa": "/ɔːˌɡænɪk ˈfɑːmɪŋ/", "ex": "Organic farming can reduce the use of synthetic pesticides.", "rex": "Органическое сельское хозяйство может сократить использование синтетических пестицидов.", "id": 159, "type": "word", "topic": "Environment"}, {"t": "polar ice caps", "ru": "полярные ледяные шапки", "ipa": "/ˌpəʊlə ˈaɪs kæps/", "ex": "Rising temperatures are melting the polar ice caps.", "rex": "Рост температуры приводит к таянию полярных ледяных шапок.", "id": 160, "type": "word", "topic": "Environment"}, {"t": "afforestation", "ru": "лесонасаждение", "ipa": "/əˌfɒrɪˈsteɪʃən/", "ex": "Afforestation can help absorb carbon dioxide.", "rex": "Лесонасаждение может помочь поглощать углекислый газ.", "id": 161, "type": "word", "topic": "Environment"}, {"t": "to go green", "ru": "стать более экологичным", "ipa": "/tə ɡəʊ ˈɡriːn/", "ex": "Many businesses are trying to go green.", "rex": "Многие компании пытаются стать более экологичными.", "id": 162, "type": "word", "topic": "Environment"}, {"t": "safeguard", "ru": "защищать; гарантия, охрана", "ipa": "/ˈseɪfɡɑːd/", "ex": "Strict laws can safeguard fragile ecosystems.", "rex": "Строгие законы могут защищать хрупкие экосистемы.", "id": 163, "type": "word", "topic": "Environment"}, {"t": "rural", "ru": "сельский", "ipa": "/ˈrʊərəl/", "ex": "People in rural areas may have fewer public transport options.", "rex": "У жителей сельских районов может быть меньше вариантов общественного транспорта.", "id": 164, "type": "word", "topic": "Environment"}, {"t": "desertification", "ru": "опустынивание", "ipa": "/dɪˌzɜːtɪfɪˈkeɪʃən/", "ex": "Overgrazing can contribute to desertification.", "rex": "Чрезмерный выпас скота может способствовать опустыниванию.", "id": 165, "type": "word", "topic": "Environment"}, {"t": "humidity", "ru": "влажность воздуха", "ipa": "/hjuːˈmɪdəti/", "ex": "High humidity can make hot weather feel more intense.", "rex": "Высокая влажность может усиливать ощущение жары.", "id": 166, "type": "word", "topic": "Environment"}, {"t": "to evaporate", "ru": "испаряться", "ipa": "/ɪˈvæpəreɪt/", "ex": "Water evaporates faster in hot, dry conditions.", "rex": "Вода быстрее испаряется в жарких и сухих условиях.", "id": 167, "type": "word", "topic": "Environment"}, {"t": "arid", "ru": "засушливый", "ipa": "/ˈærɪd/", "ex": "Arid regions are especially vulnerable to water shortages.", "rex": "Засушливые регионы особенно уязвимы к нехватке воды.", "id": 168, "type": "word", "topic": "Environment"}, {"t": "semi-arid", "ru": "полузасушливый", "ipa": "/ˌsemi ˈærɪd/", "ex": "Semi-arid areas can be sensitive to climate change.", "rex": "Полузасушливые районы могут быть чувствительны к изменению климата.", "id": 169, "type": "word", "topic": "Environment"}, {"t": "algae", "ru": "водоросли", "ipa": "/ˈældʒiː/", "ex": "Excess nutrients in water can cause algae to grow rapidly.", "rex": "Избыток питательных веществ в воде может вызвать быстрый рост водорослей.", "id": 170, "type": "word", "topic": "Environment"}, {"t": "runoff", "ru": "поверхностный сток", "ipa": "/ˈrʌnɒf/", "ex": "Agricultural runoff can pollute rivers.", "rex": "Сельскохозяйственный сток может загрязнять реки.", "id": 171, "type": "word", "topic": "Environment"}, {"t": "to graze", "ru": "пастись", "ipa": "/ɡreɪz/", "ex": "Cattle graze on grasslands.", "rex": "Крупный рогатый скот пасётся на пастбищах.", "id": 172, "type": "word", "topic": "Environment"}, {"t": "to overgraze", "ru": "чрезмерно выпасать скот", "ipa": "/ˌəʊvəˈɡreɪz/", "ex": "Farmers can damage the soil if they overgraze the land.", "rex": "Фермеры могут повредить почву, если чрезмерно выпасают скот.", "id": 173, "type": "word", "topic": "Environment"}, {"t": "methane", "ru": "метан", "ipa": "/ˈmiːθeɪn/", "ex": "Livestock farming produces significant amounts of methane.", "rex": "Животноводство производит значительное количество метана.", "id": 174, "type": "word", "topic": "Environment"}, {"t": "to reinforce", "ru": "укреплять, усиливать", "ipa": "/ˌriːɪnˈfɔːs/", "ex": "Governments can reinforce environmental standards through inspections.", "rex": "Правительства могут усилить экологические стандарты с помощью проверок.", "id": 175, "type": "word", "topic": "Environment"}, {"t": "to sustain", "ru": "поддерживать, сохранять", "ipa": "/səˈsteɪn/", "ex": "Healthy ecosystems can sustain diverse wildlife populations.", "rex": "Здоровые экосистемы могут поддерживать разнообразные популяции диких животных.", "id": 176, "type": "word", "topic": "Environment"}, {"t": "deteriorate", "ru": "ухудшаться", "ipa": "/dɪˈtɪəriəreɪt/", "ex": "Air quality can deteriorate during periods of heavy traffic.", "rex": "Качество воздуха может ухудшаться в периоды интенсивного движения.", "id": 177, "type": "word", "topic": "Environment"}, {"t": "to tackle", "ru": "решать проблему, бороться с", "ipa": "/ˈtækəl/", "ex": "Governments need to tackle air pollution more effectively.", "rex": "Правительствам необходимо эффективнее бороться с загрязнением воздуха.", "id": 178, "type": "word", "topic": "Environment"}, {"t": "holistic", "ru": "целостный, комплексный", "ipa": "/həʊˈlɪstɪk/", "ex": "Climate policy requires a holistic approach.", "rex": "Климатическая политика требует комплексного подхода.", "id": 179, "type": "word", "topic": "Environment"}, {"t": "woody vegetation", "ru": "древесная растительность", "ipa": "/ˌwʊdi ˌvedʒəˈteɪʃən/", "ex": "Woody vegetation can help prevent soil erosion.", "rex": "Древесная растительность может помогать предотвращать эрозию почвы.", "id": 180, "type": "word", "topic": "Environment"}, {"t": "pastoralist", "ru": "скотовод", "ipa": "/ˈpɑːstərəlɪst/", "ex": "Pastoralists depend heavily on healthy grasslands.", "rex": "Скотоводы сильно зависят от здоровых пастбищ.", "id": 181, "type": "word", "topic": "Environment"}, {"t": "blowout", "ru": "выброс, прорыв", "ipa": "/ˈbləʊaʊt/", "ex": "An offshore blowout can cause a major oil spill.", "rex": "Аварийный выброс на морской платформе может вызвать крупный разлив нефти.", "id": 182, "type": "word", "topic": "Environment"}, {"t": "oil spill", "ru": "разлив нефти", "ipa": "/ˈɔɪl spɪl/", "ex": "An oil spill can devastate marine ecosystems.", "rex": "Разлив нефти может разрушительно воздействовать на морские экосистемы.", "id": 183, "type": "word", "topic": "Environment"}, {"t": "well", "ru": "скважина", "ipa": "/wel/", "ex": "The company drilled a new offshore well.", "rex": "Компания пробурила новую морскую скважину.", "id": 184, "type": "word", "topic": "Environment"}, {"t": "fluid", "ru": "жидкость, текучая среда", "ipa": "/ˈfluːɪd/", "ex": "Drilling fluid is used during offshore operations.", "rex": "Буровая жидкость используется при морских буровых работах.", "id": 185, "type": "word", "topic": "Environment"}, {"t": "to seal", "ru": "герметично закрывать", "ipa": "/siːl/", "ex": "Engineers tried to seal the damaged well.", "rex": "Инженеры пытались герметично закрыть повреждённую скважину.", "id": 186, "type": "word", "topic": "Environment"}, {"t": "severe", "ru": "сильный, тяжёлый, серьёзный", "ipa": "/sɪˈvɪə/", "ex": "The spill caused severe environmental damage.", "rex": "Разлив нанёс серьёзный экологический ущерб.", "id": 187, "type": "word", "topic": "Environment"}, {"t": "precaution", "ru": "мера предосторожности", "ipa": "/prɪˈkɔːʃən/", "ex": "Companies should take every precaution to prevent oil spills.", "rex": "Компании должны принимать все меры предосторожности для предотвращения разливов нефти.", "id": 188, "type": "word", "topic": "Environment"}, {"t": "adjacent", "ru": "соседний, прилегающий", "ipa": "/əˈdʒeɪsənt/", "ex": "Pollution can spread to adjacent coastal areas.", "rex": "Загрязнение может распространяться на прилегающие прибрежные районы.", "id": 189, "type": "word", "topic": "Environment"}, {"t": "putrescible", "ru": "подверженный гниению", "ipa": "/pjuːˈtresəbəl/", "ex": "Putrescible waste should be managed carefully.", "rex": "Органические отходы, подверженные гниению, следует утилизировать осторожно.", "id": 190, "type": "word", "topic": "Environment"}, {"t": "to dilute", "ru": "разбавлять", "ipa": "/daɪˈluːt/", "ex": "Pollutants may become diluted in a large body of water.", "rex": "Загрязняющие вещества могут разбавляться в большом объёме воды.", "id": 191, "type": "word", "topic": "Environment"}, {"t": "mound", "ru": "насыпь, куча, холм", "ipa": "/maʊnd/", "ex": "Waste was piled into a large mound.", "rex": "Отходы были сложены в большую кучу.", "id": 192, "type": "word", "topic": "Environment"}, {"t": "rig", "ru": "буровая установка", "ipa": "/rɪɡ/", "ex": "Offshore rigs must follow strict safety rules.", "rex": "Морские буровые установки должны соблюдать строгие правила безопасности.", "id": 193, "type": "word", "topic": "Environment"}, {"t": "to smother", "ru": "душить, покрывать плотным слоем", "ipa": "/ˈsmʌðə/", "ex": "Oil can smother marine plants and animals.", "rex": "Нефть может покрывать плотным слоем морские растения и животных, лишая их кислорода.", "id": 194, "type": "word", "topic": "Environment"}, {"t": "sweep away", "ru": "сметать, уносить", "ipa": "/ˌswiːp əˈweɪ/", "ex": "Floodwater can sweep away soil and debris.", "rex": "Паводковая вода может уносить почву и обломки.", "id": 195, "type": "word", "topic": "Environment"}];
+items.push(...wordItems);
+const SUPABASE_URL='https://vykorjlnmxkekqkzyfnk.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_K51m0vo6t0O9ZdruwdGL6g_HWvRLz0C';
+const cloudClient=(window.supabase&&window.supabase.createClient)?window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY):null;
+let cloudUser=null, cloudBusy=false, lastCloudSync=null;
+
+const key='ielts-vocab-progress-v1', editKey='ielts-vocab-edits-v1', customKey='ielts-vocab-custom-v1';
+let progress=JSON.parse(localStorage.getItem(key)||'{}');
+let edits=JSON.parse(localStorage.getItem(editKey)||'{}');
+let customItems=JSON.parse(localStorage.getItem(customKey)||'[]');
+items.push(...customItems);
+items.forEach(x=>{if(edits[x.id])Object.assign(x,edits[x.id])});
+let currentTopic='Environment';
+let deck=[],idx=0,widx=0,sidx=0,seconds=60,timer=null;
+let flashType='all',flashDifficultOnly=false,writeType='all',writeDifficultOnly=false;
+let editingId=null,currentWriteId=null,writeChecked=false,lastWriteAttempt=null;
+
+function topicItems(){return items.filter(x=>x.topic===currentTopic)}
+function defaultProgress(){return {score:0,reviews:0,next:0,mistakes:0,streak:0,difficult:false,lastResult:null}}
+function p(id){return {...defaultProgress(),...(progress[id]||{})}}
+function clamp(n,min,max){return Math.max(min,Math.min(max,n))}
+function isDifficult(x){return !!p(x.id).difficult}
+function save(){localStorage.setItem(key,JSON.stringify(progress));renderStats()}
+function saveCustom(){localStorage.setItem(customKey,JSON.stringify(customItems))}
+function setCloudStatus(mode,text){
+  if(!window.syncDot||!window.syncLabel)return;
+  syncDot.className='syncDot'+(mode?' '+mode:'');syncLabel.textContent=text;
+}
+function cloudId(id){return String(id)}
+function fromCloudId(id){return /^\d+$/.test(String(id))?Number(id):String(id)}
+function vocabToRow(x){return {id:cloudId(x.id),user_id:cloudUser.id,topic:x.topic,type:x.type,term:x.t,transcription:x.ipa||null,translation_ru:x.ru,example_en:x.ex||'',example_ru:x.rex||''}}
+function rowToVocab(r){return {id:fromCloudId(r.id),topic:r.topic,type:r.type,t:r.term,ipa:r.transcription||'',ru:r.translation_ru||'',ex:r.example_en||'',rex:r.example_ru||''}}
+function progressToRow(id,q){q={...defaultProgress(),...(q||{})};return {user_id:cloudUser.id,vocabulary_id:cloudId(id),correct_count:q.score||0,wrong_count:q.mistakes||0,correct_streak:q.streak||0,needs_work:!!q.difficult,mastered:(q.score||0)>=4,last_reviewed:q.reviews?new Date().toISOString():null,next_review:q.next?new Date(q.next).toISOString():null}}
+function rowToProgress(r){return {score:Number(r.correct_count||0),reviews:r.last_reviewed?1:0,next:r.next_review?new Date(r.next_review).getTime():0,mistakes:Number(r.wrong_count||0),streak:Number(r.correct_streak||0),difficult:!!r.needs_work,lastResult:null}}
+function refreshAuthModal(){
+  if(!window.authSignedOut)return;
+  authSignedOut.style.display=cloudUser?'none':'block';authSignedIn.style.display=cloudUser?'block':'none';
+  if(cloudUser){authUser.textContent=cloudUser.email||'signed-in user';authSyncMeta.textContent=lastCloudSync?'Last synced '+lastCloudSync.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}):'Your vocabulary and progress are synced.'}
+}
+function openAuthModal(){authError.textContent='';refreshAuthModal();authBack.classList.add('show');if(!cloudUser)setTimeout(()=>authEmail.focus(),50)}
+function closeAuthModal(){authBack.classList.remove('show')}
+authBack.addEventListener('click',e=>{if(e.target===authBack)closeAuthModal()});
+async function signInCloud(){
+  if(!cloudClient){authError.textContent='Could not load the Supabase client. Check your internet connection.';return}
+  let email=authEmail.value.trim(),password=authPassword.value;if(!email||!password){authError.textContent='Enter your email and password.';return}
+  signInBtn.disabled=true;signInBtn.textContent='Signing in…';authError.textContent='';
+  const {data,error}=await cloudClient.auth.signInWithPassword({email,password});
+  signInBtn.disabled=false;signInBtn.textContent='Sign in';
+  if(error){authError.textContent=error.message;return}
+  cloudUser=data.user;await loadCloudData();refreshAuthModal();
+}
+async function signOutCloud(){if(cloudClient)await cloudClient.auth.signOut();cloudUser=null;setCloudStatus('', 'Local only');refreshAuthModal();closeAuthModal()}
+async function syncVocabularyItem(x){
+  if(!cloudUser||!cloudClient)return;
+  setCloudStatus('busy','Syncing…');
+  const {error}=await cloudClient.from('vocabulary').upsert(vocabToRow(x),{onConflict:'id'});
+  if(error){console.error(error);setCloudStatus('error','Sync error');return}
+  lastCloudSync=new Date();setCloudStatus('online','Synced');refreshAuthModal();
+}
+async function syncProgressItem(id){
+  if(!cloudUser||!cloudClient)return;
+  setCloudStatus('busy','Syncing…');
+  const {error}=await cloudClient.from('progress').upsert(progressToRow(id,progress[id]),{onConflict:'user_id,vocabulary_id'});
+  if(error){console.error(error);setCloudStatus('error','Sync error');return}
+  lastCloudSync=new Date();setCloudStatus('online','Synced');refreshAuthModal();
+}
+async function seedCloudFromLocal(){
+  if(!cloudUser||!cloudClient)return;
+  setCloudStatus('busy','First sync…');
+  const vocabRows=items.map(vocabToRow);
+  for(let i=0;i<vocabRows.length;i+=100){let {error}=await cloudClient.from('vocabulary').upsert(vocabRows.slice(i,i+100),{onConflict:'id'});if(error)throw error}
+  const progRows=Object.entries(progress).filter(([id])=>items.some(x=>cloudId(x.id)===cloudId(id))).map(([id,q])=>progressToRow(id,q));
+  for(let i=0;i<progRows.length;i+=100){let {error}=await cloudClient.from('progress').upsert(progRows.slice(i,i+100),{onConflict:'user_id,vocabulary_id'});if(error)throw error}
+}
+async function loadCloudData(){
+  if(!cloudUser||!cloudClient)return;cloudBusy=true;setCloudStatus('busy','Loading…');
+  try{
+    let {data:vrows,error:ve}=await cloudClient.from('vocabulary').select('*').order('created_at',{ascending:true});if(ve)throw ve;
+    if(!vrows||!vrows.length){await seedCloudFromLocal();({data:vrows,error:ve}=await cloudClient.from('vocabulary').select('*').order('created_at',{ascending:true}));if(ve)throw ve}
+    if(vrows&&vrows.length){items.length=0;items.push(...vrows.map(rowToVocab))}
+    let {data:prows,error:pe}=await cloudClient.from('progress').select('*');if(pe)throw pe;
+    if(prows){progress={};prows.forEach(r=>{progress[fromCloudId(r.vocabulary_id)]=rowToProgress(r)});localStorage.setItem(key,JSON.stringify(progress))}
+    lastCloudSync=new Date();setCloudStatus('online','Synced');
+    rebuildDeck(false);renderStats();renderLibrary();renderCard();renderWrite();renderSpeak();refreshAuthModal();
+  }catch(err){console.error(err);setCloudStatus('error','Sync error');if(window.authError)authError.textContent=err.message||String(err)}finally{cloudBusy=false}
+}
+async function syncAllCloud(manual=false){
+  if(!cloudUser||!cloudClient)return;
+  try{setCloudStatus('busy','Syncing…');
+    for(let i=0;i<items.length;i+=100){let {error}=await cloudClient.from('vocabulary').upsert(items.slice(i,i+100).map(vocabToRow),{onConflict:'id'});if(error)throw error}
+    const rows=Object.entries(progress).map(([id,q])=>progressToRow(id,q));for(let i=0;i<rows.length;i+=100){let {error}=await cloudClient.from('progress').upsert(rows.slice(i,i+100),{onConflict:'user_id,vocabulary_id'});if(error)throw error}
+    lastCloudSync=new Date();setCloudStatus('online','Synced');refreshAuthModal();
+  }catch(err){console.error(err);setCloudStatus('error','Sync error')}
+}
+async function initCloud(){
+  if(!cloudClient){setCloudStatus('error','Offline');return}
+  const {data}=await cloudClient.auth.getSession();cloudUser=data.session?.user||null;
+  if(cloudUser)await loadCloudData();else setCloudStatus('', 'Local only');refreshAuthModal();
+  cloudClient.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_OUT'){cloudUser=null;setCloudStatus('', 'Local only');refreshAuthModal()}});
+}
+
+function resultFrom(base,known){
+  let q={...defaultProgress(),...(base||{})};
+  q.reviews+=1;
+  if(known){
+    q.score=clamp(q.score+1,0,5);
+    q.streak=(q.streak||0)+1;
+    if(q.difficult && q.streak>=2) q.difficult=false;
+    q.next=Date.now()+(q.score>=4?7:3)*86400000;
+    q.lastResult='known';
+  }else{
+    q.score=clamp(q.score-1,0,5);
+    q.streak=0;
+    q.mistakes=(q.mistakes||0)+1;
+    q.difficult=true;
+    q.next=Date.now();
+    q.lastResult='unknown';
+  }
+  return q;
+}
+function recordResult(x,known){progress[x.id]=resultFrom(progress[x.id],known);save();syncProgressItem(x.id)}
+
+function renderStats(){
+  let a=topicItems(),mastered=a.filter(x=>p(x.id).score>=4).length,due=a.filter(x=>p(x.id).reviews===0||p(x.id).next<=Date.now()).length;
+  totalN.textContent=a.length;masteredN.textContent=mastered;dueN.textContent=due;
+  let pc=a.length?Math.round(mastered/a.length*100):0;progBar.style.width=pc+'%';
+  progText.textContent=a.length?pc+'% mastered • '+mastered+' of '+a.length+' items':'No vocabulary added to this topic yet.';
+  let stat=(typ,prefix)=>{
+    let z=a.filter(x=>x.type===typ),m=z.filter(x=>p(x.id).score>=4).length,d=z.filter(x=>p(x.id).reviews===0||p(x.id).next<=Date.now()).length,w=z.filter(isDifficult).length;
+    document.getElementById(prefix+'Total').textContent=z.length;
+    document.getElementById(prefix+'Mastered').textContent=m;
+    document.getElementById(prefix+'Due').textContent=d;
+    document.getElementById(prefix+'Difficult').textContent=w;
+  };
+  stat('word','word');stat('collocation','coll');
+}
+
+function openView(v){
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+  document.getElementById(v).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===v));
+  if(v==='library')renderLibrary();
+  if(v==='flash'){rebuildDeck(false);renderCard()}
+  if(v==='write')renderWrite();
+  if(v==='speak')renderSpeak();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>openView(b.dataset.view));
+
+function renderLibrary(){
+  let q=(search.value||'').toLowerCase(),typ=typeFilter.value;
+  let arr=topicItems().filter(x=>(typ==='all'||x.type===typ)&&(x.t+' '+x.ru+' '+x.ex).toLowerCase().includes(q));
+  libraryList.innerHTML=arr.map(x=>`<div class="row"><div><div class="term">${x.t}</div>${x.ipa?`<div class="ipa">${x.ipa}</div>`:''}<span class="badge">${x.type}</span>${isDifficult(x)?'<span class="badge weak">Needs work</span>':''}</div><div class="ru">${x.ru}</div><div class="ex">${x.ex}</div><div><div class="tiny">Mastery ${p(x.id).score}/5</div><button class="editBtn" onclick="openEdit(${x.id})">Edit</button></div></div>`).join('')||'<div class="empty">No items found.</div>';
+}
+search.oninput=renderLibrary;typeFilter.onchange=renderLibrary;
+
+function flashItems(){
+  return topicItems().filter(x=>(flashType==='all'||x.type===flashType)&&(!flashDifficultOnly||isDifficult(x)));
+}
+function rebuildDeck(shuffle=false){deck=[...flashItems()];if(shuffle)deck.sort(()=>Math.random()-.5);idx=0}
+function shuffleDeck(){rebuildDeck(true);renderCard()}
+function setFlashType(t){
+  flashType=t;
+  ['all','word','collocation'].forEach(v=>document.getElementById(v==='all'?'flashAll':v==='word'?'flashWords':'flashColls').classList.toggle('active',v===t));
+  rebuildDeck(false);renderCard();
+}
+function toggleFlashDifficult(){flashDifficultOnly=!flashDifficultOnly;flashDifficult.classList.toggle('active',flashDifficultOnly);rebuildDeck(false);renderCard()}
+function renderCard(){
+  if(!deck.length){
+    fcCount.textContent='';
+    flashCard.classList.remove('revealed');
+    flashCard.innerHTML=`<div class="empty">${flashDifficultOnly?'No difficult items in this selection. Items you miss in Flashcards or Write will appear here.':'No vocabulary added for this selection yet.'}</div>`;
+    rating.classList.remove('show');return;
+  }
+  idx=((idx%deck.length)+deck.length)%deck.length;
+  let x=deck[idx],q=p(x.id),kind=x.type==='word'?'word':'collocation';
+  fcCount.textContent=`Card ${idx+1} of ${deck.length} • ${kind} • mastery ${q.score}/5${q.difficult?' • needs work':''}`;
+  flashCard.classList.remove('revealed');rating.classList.remove('show');
+  flashCard.innerHTML=`<div class="hint">Russian cue — recall the English ${kind}</div><div class="big">${x.ru}</div><div class="context">${x.rex}</div><div class="answer"><b>${x.t}</b>${x.ipa?`<div class="ipa">${x.ipa}</div>`:''}<p>${x.ex}</p></div><div class="tiny" style="margin-top:24px">Tap to reveal • tap again to go back</div>`;
+}
+function toggleCard(){
+  if(!deck.length)return;
+  const revealed=flashCard.classList.toggle('revealed');
+  rating.classList.toggle('show',revealed);
+}
+function nextCard(e){if(e)e.stopPropagation();if(!deck.length)return;idx=(idx+1)%deck.length;renderCard()}
+function prevCard(e){if(e)e.stopPropagation();if(!deck.length)return;idx=(idx-1+deck.length)%deck.length;renderCard()}
+function rateCard(e,known){
+  e.stopPropagation();if(!deck.length)return;
+  let currentIndex=idx,x=deck[currentIndex];
+  recordResult(x,known);
+  if(flashDifficultOnly && !isDifficult(x)){
+    deck.splice(currentIndex,1);
+    if(idx>=deck.length)idx=0;
+  }else idx=(idx+1)%deck.length;
+  renderCard();
+}
+
+function writeItems(){return topicItems().filter(x=>(writeType==='all'||x.type===writeType)&&(!writeDifficultOnly||isDifficult(x)))}
+function setWriteType(t){
+  writeType=t;widx=0;
+  ['all','word','collocation'].forEach(v=>document.getElementById(v==='all'?'writeAll':v==='word'?'writeWords':'writeColls').classList.toggle('active',v===t));
+  renderWrite();
+}
+function toggleWriteDifficult(){writeDifficultOnly=!writeDifficultOnly;writeDifficult.classList.toggle('active',writeDifficultOnly);widx=0;renderWrite()}
+function renderWrite(){
+  let a=writeItems();writeChecked=false;lastWriteAttempt=null;
+  if(!a.length){
+    currentWriteId=null;writeCount.textContent='';if(typeof writePagerCount!=='undefined')writePagerCount.textContent='';
+    writePrompt.innerHTML=`<div class="empty">${writeDifficultOnly?'No difficult items in this selection.':'No vocabulary added for this selection yet.'}</div>`;
+    writeInput.value='';writeInput.disabled=true;writeFeedback.textContent='';return;
+  }
+  writeInput.disabled=false;widx=(widx+a.length)%a.length;let x=a[widx];currentWriteId=x.id;
+  writeCount.textContent=`Item ${widx+1} of ${a.length} • ${x.type}${isDifficult(x)?' • needs work':''}`;
+  if(typeof writePagerCount!=='undefined')writePagerCount.textContent=`${widx+1} / ${a.length}`;
+  writePrompt.innerHTML=`<b>${x.rex}</b><br><span class="tiny">Target meaning: ${x.ru}</span>`;
+  writeInput.value='';writeFeedback.textContent='';writeInput.focus();
+}
+function norm(s){return s.toLowerCase().replace(/[.,!?;:]/g,'').replace(/^to\s+/,'').replace(/\s+/g,' ').trim()}
+function checkWrite(){
+  if(!currentWriteId||writeChecked)return;
+  let x=items.find(i=>i.id===currentWriteId);if(!x)return;
+  let ok=norm(writeInput.value)===norm(x.t),before={...p(x.id)};
+  progress[x.id]=resultFrom(before,ok);save();syncProgressItem(x.id);writeChecked=true;lastWriteAttempt={id:x.id,before,ok};
+  writeFeedback.innerHTML=ok
+    ?`<span style="color:var(--good)">Correct ✓</span>`
+    :`<span style="color:var(--bad)">Not quite.</span> Correct answer: <b>${x.t}</b><button class="inlineAction" onclick="markWriteCorrect()">Mark as correct</button>`;
+}
+function markWriteCorrect(){
+  if(!lastWriteAttempt||lastWriteAttempt.ok)return;
+  let x=items.find(i=>i.id===lastWriteAttempt.id);if(!x)return;
+  progress[x.id]=resultFrom(lastWriteAttempt.before,true);save();syncProgressItem(x.id);lastWriteAttempt.ok=true;
+  writeFeedback.innerHTML=`<span style="color:var(--good)">Marked as correct ✓</span> <span class="tiny">The wrong-attempt penalty was removed.</span>`;
+}
+function showWriteAnswer(){
+  if(!currentWriteId)return;let x=items.find(i=>i.id===currentWriteId);if(!x)return;
+  writeFeedback.innerHTML=`Answer: <b>${x.t}</b>${x.ipa?` <span class="ipa">${x.ipa}</span>`:''}<br><span class="tiny">${x.ex}</span>`;
+}
+function nextWrite(){let a=writeItems();if(!a.length)return;let pos=a.findIndex(x=>x.id===currentWriteId);widx=pos<0?0:(pos+1)%a.length;renderWrite()}
+function prevWrite(){let a=writeItems();if(!a.length)return;let pos=a.findIndex(x=>x.id===currentWriteId);widx=pos<0?a.length-1:(pos-1+a.length)%a.length;renderWrite()}
+
+function openEdit(id){
+  let x=items.find(i=>i.id===id);if(!x)return;editingId=id;modalTitle.textContent='Edit vocabulary item';
+  editTerm.value=x.t;editType.value=x.type;editTopic.value=x.topic;editIpa.value=x.ipa||'';editRu.value=x.ru;editEx.value=x.ex;editRex.value=x.rex;editBack.classList.add('show');
+}
+function openAdd(){
+  editingId='new';modalTitle.textContent='Add vocabulary item';editTerm.value='';editType.value='word';editTopic.value=currentTopic;editIpa.value='';editRu.value='';editEx.value='';editRex.value='';editBack.classList.add('show');setTimeout(()=>editTerm.focus(),50);
+}
+function closeEdit(){editBack.classList.remove('show');editingId=null}
+function saveEdit(){
+  let patch={t:editTerm.value.trim(),type:editType.value,ipa:editType.value==='word'?editIpa.value.trim():'',ru:editRu.value.trim(),ex:editEx.value.trim(),rex:editRex.value.trim(),topic:editTopic.value||currentTopic};
+  if(!patch.t||!patch.ru){alert('Please add at least the English term and Russian meaning.');return}
+  let savedItem=null;
+  if(editingId==='new'){
+    let x={...patch,id:Date.now()};items.push(x);customItems.push(x);saveCustom();savedItem=x;
+  }else{
+    let x=items.find(i=>i.id===editingId);if(!x)return;Object.assign(x,patch);edits[x.id]=patch;localStorage.setItem(editKey,JSON.stringify(edits));
+    let ci=customItems.findIndex(i=>i.id===x.id);if(ci>=0){customItems[ci]={...customItems[ci],...patch};saveCustom()}savedItem=x;
+  }
+  if(savedItem)syncVocabularyItem(savedItem);
+  closeEdit();rebuildDeck(false);renderLibrary();renderStats();renderWrite();renderSpeak();
+}
+editBack.addEventListener('click',e=>{if(e.target===editBack)closeEdit()});
+
+topicSelect.addEventListener('change',()=>{
+  currentTopic=topicSelect.value;document.querySelector('#home .hero h1').textContent=currentTopic;
+  idx=0;widx=0;sidx=0;rebuildDeck(false);renderStats();renderLibrary();renderCard();renderWrite();renderSpeak();
+});
+
+const speakingSets=[
+{q:'What are the most serious environmental problems in your country, and what should governments do about them?', ids:[142,135,103,3,1,2,6], model:'Governments should take action, enforce regulations more strictly and raise public awareness of major environmental hazards.'},
+{q:'Do you think individuals can make a meaningful contribution to protecting the environment?', ids:[153,131,154,132,7,8,9,19], model:'Individuals can make a significant difference by reducing household waste, using fewer disposable products and becoming more environmentally conscious.'},
+{q:'Why do some companies continue practices that damage the environment?', ids:[129,130,121,122,13,14,18], model:'Some companies benefit financially from logging, especially where effective regulations are lacking, even though it poses a threat to wildlife.'},
+{q:'Should governments impose stricter environmental rules on businesses?', ids:[135,142,174,3,14,20], model:'Stricter rules can safeguard biodiversity, and authorities need to enforce regulations rather than simply introduce them on paper.'},
+{q:'How can the media encourage people to care more about environmental issues?', ids:[101,102,106,6,9], model:'The media can raise public awareness and make people more environmentally conscious by explaining environmental hazards in accessible language.'},
+{q:'What are the advantages and disadvantages of renewable energy?', ids:[156,157,158,123,124,16,17], model:'Renewable energy can reduce dependence on fossil fuels, although technologies such as solar panels can be energy-intensive to manufacture.'},
+{q:'Why is biodiversity important, and what threatens it?', ids:[111,112,107,110,119,140,18,20], model:'Biodiversity supports healthy ecosystems, but habitat loss, pollution and poaching can endanger species and drive them towards extinction.'},
+{q:'How can cities reduce air pollution?', ids:[126,137,11,12,1,3], model:'Cities can tackle smog and traffic fumes by improving public transport and enforcing emissions regulations.'},
+{q:'What environmental problems can be caused by climate change?', ids:[145,146,147,161,164,21], model:'Climate change can increase droughts, flooding and desertification, so governments need to take steps to adapt as well as cut emissions.'},
+{q:'Should people change the products they buy to help the environment?', ids:[132,150,153,155,19,7], model:'Choosing biodegradable products and avoiding disposable items can reduce household waste and lower our environmental impact.'}
+];
+function renderSpeak(){if(currentTopic!=='Environment'){speakPrompt.innerHTML='<div class="empty">Speaking drills for '+currentTopic+' will appear here when vocabulary is added.</div>';speakTarget.innerHTML='';modelLine.textContent='';modelLine.style.display='none';resetTimer();return}let set=speakingSets[sidx%speakingSets.length];speakPrompt.textContent=set.q;let targets=set.ids.map(id=>items.find(x=>x.id===id)).filter(Boolean);speakTarget.innerHTML=`<div class="targetGrid">${targets.map(x=>`<span class="targetChip ${x.type}">${x.t}${x.ipa?` <small>${x.ipa}</small>`:''}</span>`).join('')}</div>`;modelLine.textContent=set.model;modelLine.style.display='none';resetTimer()}
+function nextSpeak(){sidx++;renderSpeak()}
+function toggleModel(){modelLine.style.display=modelLine.style.display==='none'?'block':'none'}
+function resetTimer(){clearInterval(timer);timer=null;seconds=60;timerBtn.textContent='Start 1 min';drawTime()}
+function drawTime(){timerDisplay=document.getElementById('timer');timerDisplay.textContent='00:'+String(seconds).padStart(2,'0')}
+function toggleTimer(){if(timer){clearInterval(timer);timer=null;timerBtn.textContent='Resume'}else{timerBtn.textContent='Pause';timer=setInterval(()=>{seconds--;drawTime();if(seconds<=0){clearInterval(timer);timer=null;timerBtn.textContent='Done ✓'}},1000)}}
+rebuildDeck(false);renderStats();renderLibrary();renderCard();renderWrite();renderSpeak();initCloud();
+</script></body></html>
